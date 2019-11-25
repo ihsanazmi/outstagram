@@ -3,11 +3,17 @@ import { View } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Text, Button, Divider } from 'react-native-elements';
 import {connect} from 'react-redux'
+import Axios from 'axios'
+import {urlApi} from '../support/url'
 
 class login extends Component {
 
     state={
-        look: true
+        look: true,
+        loading_btn : false,
+        username: '',
+        password: ''
+
     }
 
     componentDidUpdate(){
@@ -20,6 +26,31 @@ class login extends Component {
         }
     }
 
+    onBtnLoginClick = ()=>{
+        this.setState({loading_btn: !this.state.loading_btn})
+        let{username, password} = this.state
+
+        if(username && password){
+            Axios.post(urlApi + 'auth/login', {username, password})
+            .then(res=>{
+                if(res.data.error){
+                    return alert(res.data.message)
+                }
+                var data_login = res.data.data[0]
+                var {username,email} = data_login
+                AsyncStorage.setItem('data',JSON.stringify({username,email}),(err)=>{
+                    if(err) return alert(err.message)
+                    this.props.onRegisterSuccess({username,email})
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        }else{
+            return alert('Form cannot empty')
+        }
+    }
+
     render() {
         return (
             <View style={{flex:1,justifyContent:'center',paddingHorizontal:20}}>
@@ -27,6 +58,7 @@ class login extends Component {
                 <View style={{marginTop:30}}>
                     <Input
                         placeholder='Username'
+                        onChange={(text)=>{this.setState({username: text})}}
                         leftIcon={
                             <Icon
                             name='user'
@@ -41,6 +73,7 @@ class login extends Component {
                     <Input
                         placeholder='Password'
                         secureTextEntry = {this.state.look}
+                        onChange={(text)=>{this.setState({password: text})}}
                         leftIcon={
                             <Icon
                             name='lock'
@@ -63,7 +96,8 @@ class login extends Component {
                 <View style={{marginTop:30}}>
                     <Button
                         title='Login'
-                        loading = {false}
+                        onPress={this.onBtnLoginClick}
+                        loading = {this.state.loading_btn}
                     />
                 </View>
                 <View style={{marginTop:20}}>
