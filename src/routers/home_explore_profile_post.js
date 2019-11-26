@@ -6,11 +6,12 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import explore from '../screens/explore'
 import postImage from '../screens/postImage'
 import editProfile from '../screens/editProfile'
+import home_to_profile from '../routers/home_to_profile'
 
 const MainTab = createAppContainer(createMaterialTopTabNavigator(
     {
         home: {
-            screen: Home,
+            screen: home_to_profile,
             navigationOptions:{
                 tabBarIcon: <Icon name="home" size={24}/>
             }

@@ -31,7 +31,7 @@ class login extends Component {
     onBtnLoginClick = ()=>{
         this.setState({loading_btn: !this.state.loading_btn})
         let{username, password} = this.state
-        console.log(this.state.username)
+        // console.log(this.state.username)
         if(username && password){
             Axios.post('https://apiinstagrinjc.herokuapp.com/auth/login', {username, password})
             .then(res=>{
@@ -39,10 +39,11 @@ class login extends Component {
                     return alert(res.data.message)
                 }
                 var data_login = res.data.data[0]
-                var {username,email} = data_login
-                AsyncStorage.setItem('data',JSON.stringify({username,email}),(err)=>{
+                var {username,email, profile_pict} = data_login
+                console.log(profile_pict)
+                AsyncStorage.setItem('data',JSON.stringify({username,email, profile_pict}),(err)=>{
                     if(err) return alert(err.message)
-                    this.props.onRegisterSuccess({username,email})
+                    this.props.onRegisterSuccess({username,email, profile_pict})
                 })
             })
             .catch((err) => {

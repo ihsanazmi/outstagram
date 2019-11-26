@@ -19,20 +19,22 @@ class register extends Component {
         username_available: null,
         check_storage : false,
         loading_btn_register: false,
-        look: true
+        look: true,
+        
     }
 
     componentDidMount(){
         console.disableYellowBox = true
         AsyncStorage.getItem('data')
         .then((data) => {
+            // console.log(data)
             if(data){
                 var obj_data = JSON.parse(data)
                 this.props.onRegisterSuccess(obj_data)
                 this.setState({check_storage : true})
             }
             this.setState({check_storage : true})
-            console.log(obj_data)
+            // console.log(obj_data)
         })
         .catch((err) => {
             console.log(err)
@@ -58,7 +60,7 @@ class register extends Component {
                 // munculin
             }else{
                 this.setState({loading_check_username : false,username_available:res.data.available})
-                console.log(res.data.available)
+                // console.log(res.data.available)
             }
         })
         .catch((err) => {
@@ -102,6 +104,16 @@ class register extends Component {
     }
 
     render() {
+        if(this.state.check_storage === false){
+            return(
+                <View style={{flex:1,justifyContent:'center',alignItems:'center'}}> 
+                    <Text h2>
+                        Insta
+                    </Text>
+                    <ActivityIndicator size='small' />
+                </View>
+            )
+        }
         return (
             <View style={{flex:1,justifyContent:'center',paddingHorizontal:20}}>
                 <Text style={{alignSelf:'center'}} h1> Insta </Text>

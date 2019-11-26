@@ -19,7 +19,7 @@ export default class post extends Component {
                             />
                         </View>
                         <View style={{paddingLeft:15, justifyContent:'center'}}>
-                            <Text style={{fontWeight:'bold'}}>{this.props.username}</Text>
+                            <Text onPress={this.props.onPindah} style={{fontWeight:'bold'}}>{this.props.username}</Text>
                         </View>
                         <View style={{justifyContent:'center', marginLeft:'auto'}}>
                             <Icon

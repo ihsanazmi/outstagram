@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, ScrollView, ActivityIndicator } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Input, Text, Button, Divider, Avatar, Image } from 'react-native-elements';
+// import Icon from 'react-native-vector-icons/FontAwesome';
+// import { Input, Text, Button, Divider, Avatar, Image } from 'react-native-elements';
 import Post from '../components/post'
 import {urlApi} from '../support/url'
 import axios from 'axios'
@@ -17,11 +17,16 @@ export default class home extends Component {
         axios.get(urlApi + 'post/getallpost')
         .then(res=>{
             this.setState({post: res.data.data})
-            console.log(res.data.data)
+            // console.log(res.data.data)
         })
         .catch(err=>{
             console.log(err)
         })
+    }
+
+    pindah =(username)=>{
+        // console.log(username)
+        this.props.navigation.navigate('detail', {username: username})
     }
 
     render() {
@@ -37,7 +42,7 @@ export default class home extends Component {
                 {
                     this.state.post.map((val)=>{
                         return(
-                            <Post avatarUrl = {urlApi+`public/profile/default.png`}  postUrl = {urlApi + val.foto_url} username = {val.username} caption={val.caption}  />
+                            <Post onPindah={()=>{this.pindah(val.username)}} avatarUrl = {urlApi+`public/profile/default.png`}  postUrl = {urlApi + val.foto_url} username = {val.username} caption={val.caption}  />
                         )
                     })
                 }
