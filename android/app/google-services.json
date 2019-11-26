@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "224640386748",
+    "firebase_url": "https://outstagram-5f00f.firebaseio.com",
+    "project_id": "outstagram-5f00f",
+    "storage_bucket": "outstagram-5f00f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224640386748:android:3dd1fda058f7c1d25372b9",
+        "android_client_info": {
+          "package_name": "com.outstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224640386748-jmv32a7fvjc1nfja9cjus9lbhttnav3d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.outstagram",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "224640386748-omjpqflt3vrmu4tu9fcdkq1b3v4avval.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGrgcWH981V9aIP_nKFwgC7_iWWWjEgj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224640386748-omjpqflt3vrmu4tu9fcdkq1b3v4avval.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
