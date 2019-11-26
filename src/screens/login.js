@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
+import { View, AsyncStorage } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Text, Button, Divider } from 'react-native-elements';
 import {connect} from 'react-redux'
 import Axios from 'axios'
 import {urlApi} from '../support/url'
+import { onRegisterSuccess } from './../redux/actions/users'
+import { StackActions,NavigationActions } from 'react-navigation';
 
 class login extends Component {
 
@@ -29,9 +31,9 @@ class login extends Component {
     onBtnLoginClick = ()=>{
         this.setState({loading_btn: !this.state.loading_btn})
         let{username, password} = this.state
-
+        console.log(this.state.username)
         if(username && password){
-            Axios.post(urlApi + 'auth/login', {username, password})
+            Axios.post('https://apiinstagrinjc.herokuapp.com/auth/login', {username, password})
             .then(res=>{
                 if(res.data.error){
                     return alert(res.data.message)
@@ -58,7 +60,7 @@ class login extends Component {
                 <View style={{marginTop:30}}>
                     <Input
                         placeholder='Username'
-                        onChange={(text)=>{this.setState({username: text})}}
+                        onChangeText={(text)=>{this.setState({username: text})}}
                         leftIcon={
                             <Icon
                             name='user'
@@ -73,7 +75,7 @@ class login extends Component {
                     <Input
                         placeholder='Password'
                         secureTextEntry = {this.state.look}
-                        onChange={(text)=>{this.setState({password: text})}}
+                        onChangeText={(text)=>{this.setState({password: text})}}
                         leftIcon={
                             <Icon
                             name='lock'
@@ -115,4 +117,4 @@ const mapStateToProps = (state)=>{
     }
 }
 
-export default connect(mapStateToProps, {})(login)
+export default connect(mapStateToProps, {onRegisterSuccess})(login)

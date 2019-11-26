@@ -12,7 +12,7 @@ const MainStack = createAppContainer(createStackNavigator(
         home: MainTab
     },
     {
-        initialRouteName: 'login',
+        initialRouteName: 'register',
         headerMode: 'none'
     }
 ))
