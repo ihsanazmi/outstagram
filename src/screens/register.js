@@ -8,6 +8,7 @@ import {onRegisterSuccess} from './../redux/actions/users'
 import { urlApi } from '../support/url';
 import { StackActions,NavigationActions } from 'react-navigation'
 import { GoogleSignin, statusCodes, GoogleSigninButton } from '@react-native-community/google-signin';
+import { LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk';
 
 const web_client_id = '224640386748-omjpqflt3vrmu4tu9fcdkq1b3v4avval.apps.googleusercontent.com'
 
@@ -116,12 +117,36 @@ class register extends Component {
         }
     }
 
+    initUser = (token) => {
+        fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends&access_token=' + token)
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json)
+          
+          // Some user object has been set up somewhere, build that user here
+        //   const user = {}
+        //   user.name = json.name
+        //   user.id = json.id
+        //   user.user_friends = json.friends
+        //   user.email = json.email
+        //   user.username = json.name
+        //   user.loading = false
+        //   user.loggedIn = true
+        //   user.avatar = setAvatar(json.id)      
+        //   console.log(user)  
+        })
+        .catch((err) => {
+            console.log('ERROR GETTING DATA FROM FACEBOOK')
+            console.log(err)
+        })
+      }
+
     _signIn = async () => {
         try {
           await GoogleSignin.hasPlayServices();
           const userInfo = await GoogleSignin.signIn();
         //   this.setState({ userInfo });
-        console.log(userInfo)
+        console.log(userInfo.user)
         } catch (error) {
           if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             // user cancelled the login flow
@@ -265,21 +290,7 @@ class register extends Component {
                         // loading={true}
                     />
                 </View>
-                <View style={{flexDirection:'row', marginTop:15}}>
-                    <View style={{flex:1}}>
-                        <Button
-                            icon={
-                                <Icon 
-                                    name='google'
-                                    size={25}
-                                    color='white'
-                                />
-                            }
-                            buttonStyle={{backgroundColor:'red'}}
-                            onPress={this._signIn}
-                        />
-                    </View>
-                </View>
+                
                 <View style={{marginTop:15}}>
                     <GoogleSigninButton
                         style={{ width: "100%", height: 50 }}
@@ -288,6 +299,26 @@ class register extends Component {
                         onPress={this._signIn}
                         disabled={this.state.isSigninInProgress} 
                     />
+                </View>
+                <View style={{marginTop:15, alignItems:'center'}}>
+                    <LoginButton
+                        publishPermissions={['publish_actions']}
+                        readPermissions={['public_profile']}
+                        onLoginFinished={
+                            (error, result) => {
+                            if (error) {
+                                console.log('login has error: ', result.error)
+                            } else if (result.isCancelled) {
+                                console.log('login is cancelled.')
+                            } else {
+                                AccessToken.getCurrentAccessToken().then((data) => {
+                                const { accessToken } = data
+                                this.initUser(accessToken)
+                                })
+                            }
+                            }
+                        }
+                        />
                 </View>
                 <View style={{flexDirection:'row',justifyContent:'center',marginTop:15}}>
                     <Text> Sudah Punya Akun? </Text>
